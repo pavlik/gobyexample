@@ -3,7 +3,6 @@ package main
 import (
     "crypto/sha1"
     "fmt"
-    "github.com/russross/blackfriday"
     "io/ioutil"
     "net/http"
     "os"
@@ -12,6 +11,8 @@ import (
     "regexp"
     "strings"
     "text/template"
+
+    "github.com/russross/blackfriday"
 )
 
 var cacheDir = "/tmp/gobyexample-cache"
@@ -281,6 +282,7 @@ func main() {
     copyFile("templates/favicon.ico", siteDir+"/favicon.ico")
     copyFile("templates/404.html", siteDir+"/404.html")
     copyFile("templates/play.png", siteDir+"/play.png")
+    copyFile("templates/CNAME", siteDir+"/CNAME")
     examples := parseExamples()
     renderIndex(examples)
     renderExamples(examples)
