@@ -53,7 +53,7 @@
             {{.DocsRendered}}
           </td>
           <td class="code{{if .CodeEmpty}} empty{{end}}{{if .CodeLeading}} leading{{end}}">
-	        {{if .CodeRun}}<a href="http://play.golang.org/p/{{$.UrlHash}}"><img title="Run code" src="play.png" class="run" /></a>{{end}}
+	        {{if .CodeRun}}<a href="http://play.golang.org/p/{{$.UrlHash}}"><img title="Запустить код" src="play.png" class="run" /></a>{{end}}
             {{.CodeRendered}}
           </td>
         </tr>
@@ -66,7 +66,7 @@
       </p>
       {{end}}
       <p class="footer">
-        Придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | Перевел <a href="http://twitter.com/village_geek">Village Geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/{{.Id}}">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/{{.Id}}">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
       </p>
     </div>
   </body>
