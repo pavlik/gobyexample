@@ -7,6 +7,6 @@ $ go run for.go
 9
 loop
 
-# We'll see some other `for` forms later when we look at
-# `range` statements, channels, and other data
-# structures.
+# Позже вы увидите несколько других форм оператора `for`
+# при работе с оператором `range`, состояниями, каналами
+# и другими структурами.

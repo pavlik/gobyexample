@@ -2,8 +2,8 @@ Hello World
 Values | Типы данных
 Variables | Переменные
 Constants | Константы
-#For
-#If/Else
+For
+If/Else
 #Switch
 #Arrays
 #Slices
