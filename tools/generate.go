@@ -125,7 +125,7 @@ type Seg struct {
 }
 
 type Example struct {
-    Id, Name                    string
+    Id, Name, Title             string
     GoCode, GoCodeHash, UrlHash string
     Segs                        [][]*Seg
     NextExample                 *Example
@@ -222,8 +222,18 @@ func parseExamples() []*Example {
     examples := make([]*Example, 0)
     for _, exampleName := range exampleNames {
         if (exampleName != "") && !strings.HasPrefix(exampleName, "#") {
-            example := Example{Name: exampleName}
-            exampleId := strings.ToLower(exampleName)
+            exampleNameArr := strings.Split(exampleName, "|")
+            exampleNameArr[0] = strings.TrimSpace(exampleNameArr[0])
+            example := Example{Name: exampleNameArr[0]}
+
+            if len(exampleNameArr) > 1 {
+                exampleNameArr[1] = strings.TrimSpace(exampleNameArr[1])
+                example.Title = exampleNameArr[1]
+            } else {
+                example.Title = exampleNameArr[0]
+            }
+
+            exampleId := strings.ToLower(exampleNameArr[0])
             exampleId = strings.Replace(exampleId, " ", "-", -1)
             exampleId = strings.Replace(exampleId, "/", "-", -1)
             exampleId = strings.Replace(exampleId, "'", "", -1)

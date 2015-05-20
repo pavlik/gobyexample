@@ -1,7 +1,7 @@
 Hello World
-Values
-Variables
-#Constants
+Values | Типы данных
+Variables | Переменные
+Constants | Константы
 #For
 #If/Else
 #Switch
