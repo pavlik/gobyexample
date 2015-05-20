@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -e
-
-tools/format
-tools/measure
-tools/generate
