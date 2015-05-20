@@ -1,23 +1,24 @@
-## Go by Example
+## Go в примерах
 
-Content, toolchain, and web server for [Go by Example](https://gobyexample.com).
-
-
-### Overview
-
-The Go by Example site is built by extracting code &
-comments from source files in `examples` and rendering
-that data via the site `templates`. The programs
-implementing this build process are in `tools`.
-
-The build process produces a directory of static files -
-`public` - suitable for serving by any modern HTTP server.
-We include a lightweight Go server in `server.go`.
+В этом репозитории контент, набор инструментов для сборки статического сайта и веб-сервер для [Go в примерах](https://gobyexample.ru).
 
 
-### Building
+### Обзор
 
-To build the site:
+Сайт *Go в примерах* собирается путем извлечения кода и коментариев из файлов с исходниками в папке `examples` и дальнейшим рендерингом этих данных через шаблоны в папке `templates`. Программы для сборки находятся в папке `tools`.
+
+Процесс сборки создает папку со статическими файлами -
+`public` - подходящими для обслуживания любым современным HTTP-сервером.
+Мы включили в поставку легковесный Go-сервер в файле `server.go`.
+
+### Русская версия
+
+Русская версия была немного доработана. Теперь статику в папке `public` можно хостить прямо на Github. Подробнее о том [как настроить сборку проекта и хостинг cтатики на Github](http://gohugo.io/tutorials/github-pages-blog/).
+
+
+### Сборка
+
+Для сборки сайта:
 
 ```console
 $ go get github.com/russross/blackfriday
@@ -25,19 +26,19 @@ $ tools/build
 $ open public/index.html
 ```
 
-To build continuously in a loop:
+Для непрерывной сборки в цикле:
 
 ```console
 $ tools/build-loop
 ```
 
 
-### Local Deploy
+### Локальный деплой
 
 ```bash
-$ mkdir -p $GOPATH/src/github.com/mmcgrana
-$ cd $GOPATH/src/github.com/mmcgrana
-$ git clone git@github.com:mmcgrana/gobyexample.git
+$ mkdir -p $GOPATH/src/github.com/pavlik
+$ cd $GOPATH/src/github.com/pavlik
+$ git clone git@github.com:pavlik/gobyexample.git
 $ cd gobyexample
 $ go get
 $ foreman start
@@ -45,9 +46,9 @@ $ foreman open
 ```
 
 
-### Platform Deploy
+### Деплой на платформе
 
-Basic setup:
+Простая установка:
 
 ```bash
 $ export DEPLOY=$USER
@@ -63,7 +64,7 @@ $ git push $DEPLOY master
 $ heroku open -a $APP
 ```
 
-Add a domain + SSL:
+С добалением домена + SSL:
 
 ```bash
 $ heroku domains:add $DOMAIN
@@ -80,24 +81,25 @@ $ heroku open -r $DEPLOY
 ```
 
 
-### License
+### Лицензия
 
-This work is copyright Mark McGranaghan and licensed under a
+Копирайт на изначальный проект принадлежит Mark McGranaghan и распространяется под лицензией
 [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/).
 
-The Go Gopher is copyright [Renée French](http://reneefrench.blogspot.com/) and licensed under a
+Копирайт на Go Gopher принадлежит [Renée French](http://reneefrench.blogspot.com/) и распространяется под лицензией
 [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/).
 
 
-### Translations
+### Переводы
 
-Contributor translations of the Go by Example site are available in:
+Переводы с английской версии сайта Go by Example доступны на:
 
-* [Chinese](http://everyx.github.io/gobyexample/) by [everyx](https://github.com/everyx)
+* [Русском](http://gobyexample.ru/) by [pavlik](https://github.com/pavlik)
+* [Китайском](http://everyx.github.io/gobyexample/) by [everyx](https://github.com/everyx)
+*  [Английский](http://gobyexample.com/) оригинальный вариант
 
 
-### Thanks
+### Спасибо
 
-Thanks to [Jeremy Ashkenas](https://github.com/jashkenas)
-for [Docco](http://jashkenas.github.com/docco/), which
-inspired this project.
+Спасибо [Jeremy Ashkenas](https://github.com/jashkenas)
+за [Docco](http://jashkenas.github.com/docco/), вдохновившим на этот проект.
