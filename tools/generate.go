@@ -232,7 +232,6 @@ func parseExamples() []*Example {
             } else {
                 example.Title = exampleNameArr[0]
             }
-
             exampleId := strings.ToLower(exampleNameArr[0])
             exampleId = strings.Replace(exampleId, " ", "-", -1)
             exampleId = strings.Replace(exampleId, "/", "-", -1)

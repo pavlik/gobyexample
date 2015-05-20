@@ -20,6 +20,12 @@
 
 Для сборки сайта:
 
+Если вы работаете в OS X, для корректной работы сборщика сайта нужно установить Python (нужен для Pygmentize)
+
+```console
+brew install python
+```
+
 ```console
 $ go get github.com/russross/blackfriday
 $ tools/build
