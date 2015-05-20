@@ -1,6 +1,6 @@
 Hello World
 Values
-#Variables
+Variables
 #Constants
 #For
 #If/Else
