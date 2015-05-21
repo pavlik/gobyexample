@@ -90,7 +90,7 @@ $ heroku open -r $DEPLOY
 ### Лицензия
 
 Копирайт на изначальный проект принадлежит Mark McGranaghan и распространяется под лицензией
-[Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/).
+[Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.ru).
 
 Копирайт на Go Gopher принадлежит [Renée French](http://reneefrench.blogspot.com/) и распространяется под лицензией
 [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/).

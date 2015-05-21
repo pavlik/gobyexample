@@ -4,8 +4,8 @@ Variables | Переменные
 Constants | Константы
 For
 If/Else
-#Switch
-#Arrays
+Switch
+Arrays | Массивы
 #Slices
 #Maps
 #Range

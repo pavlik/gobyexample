@@ -1,5 +1,5 @@
-// _Switch statements_ express conditionals across many
-// branches.
+// Оператор _switch_ предназначен для организации
+// выбора из множества различных вариантов.
 
 package main
 
@@ -8,7 +8,7 @@ import "time"
 
 func main() {
 
-    // Here's a basic `switch`.
+    // Пример простого оператора `switch`.
     i := 2
     fmt.Print("write ", i, " as ")
     switch i {
@@ -20,9 +20,10 @@ func main() {
         fmt.Println("three")
     }
 
-    // You can use commas to separate multiple expressions
-    // in the same `case` statement. We use the optional
-    // `default` case in this example as well.
+    // Вы можете использовать запятые для разделения
+    // нескольких выражений в одном операторе `case`.
+    // Также в этом примере мы используем
+    // необязательный оператор `default`.
     switch time.Now().Weekday() {
     case time.Saturday, time.Sunday:
         fmt.Println("it's the weekend")
@@ -30,9 +31,10 @@ func main() {
         fmt.Println("it's a weekday")
     }
 
-    // `switch` without an expression is an alternate way
-    // to express if/else logic. Here we also show how the
-    // `case` expressions can be non-constants.
+    // `switch` без выражения - это альтернативный путь
+    // выразить логику if/else. В этом примере
+    // также показано, как `case` выражения
+    // могут быть не постоянными.
     t := time.Now()
     switch {
     case t.Hour() < 12:
