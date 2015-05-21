@@ -1,5 +1,6 @@
-// _Slices_ are a key data type in Go, giving a more
-// powerful interface to sequences than arrays.
+// _Срезы_ ключевой тип данных в Go, дающий
+// более мощный интерфейс для работы
+// с последовательностями, чем _массивы_.
 
 package main
 
@@ -7,63 +8,70 @@ import "fmt"
 
 func main() {
 
-    // Unlike arrays, slices are typed only by the
-    // elements they contain (not the number of elements).
-    // To create an empty slice with non-zero length, use
-    // the builtin `make`. Here we make a slice of
-    // `string`s of length `3` (initially zero-valued).
+    // Срез это часть массива. Как и массивы
+    // срезы индексируются и имеют длину.
+    // В отличии от массивов, их длину можно изменить.
+    // Для создания пустого среза с не нулевой длиной
+    // воспользуйтесь встроенной функцией `make`.
+    // В этом примере мы создали срез из `строк`
+    // с размером среза в 3 элемента (инициализированных
+    // нулевыми значениями).
     s := make([]string, 3)
     fmt.Println("emp:", s)
 
-    // We can set and get just like with arrays.
+    // Установка и чтение значений происходит точно также как в массиве.
     s[0] = "a"
     s[1] = "b"
     s[2] = "c"
     fmt.Println("set:", s)
     fmt.Println("get:", s[2])
 
-    // `len` returns the length of the slice as expected.
+    // `len` возвращает размер среза.
     fmt.Println("len:", len(s))
 
-    // In addition to these basic operations, slices
-    // support several more that make them richer than
-    // arrays. One is the builtin `append`, which
-    // returns a slice containing one or more new values.
-    // Note that we need to accept a return value from
-    // append as we may get a new slice value.
+    // В дополнение к этим базовым функциям,
+    // срезы поддерживают несколько других функций
+    // которые делают их возможности гораздо шире
+    // чем у массивов. Одна из них - это `append`,
+    // которая возвращает срез содержащий 1 или более
+    // новых значений. Обратите внимание, что мы должны
+    // принять возвращаемое функцией `append` значение -
+    // таким образом мы получаем новое значение среза.
     s = append(s, "d")
     s = append(s, "e", "f")
     fmt.Println("apd:", s)
 
-    // Slices can also be `copy`'d. Here we create an
-    // empty slice `c` of the same length as `s` and copy
-    // into `c` from `s`.
+    // Срезы можно копировать. В этом примере мы создали
+    // пустой срез `c` той же самой длины что и `s` и
+    // скопировали содержимое из `s` в `c`.
     c := make([]string, len(s))
     copy(c, s)
     fmt.Println("cpy:", c)
 
-    // Slices support a "slice" operator with the syntax
-    // `slice[low:high]`. For example, this gets a slice
-    // of the elements `s[2]`, `s[3]`, and `s[4]`.
+    // Срезы поддерживают "slice"-оператор с синтаксисом
+    // `slice[low:high]`. Например, здесь мы получаем
+    // срез элементов `s[2]`, `s[3]`, и `s[4]`.
     l := s[2:5]
     fmt.Println("sl1:", l)
 
-    // This slices up to (but excluding) `s[5]`.
+    // Здесь делается срез элементов от `s[0]`
+    // до `s[5]` (но исключая).
     l = s[:5]
     fmt.Println("sl2:", l)
 
-    // And this slices up from (and including) `s[2]`.
+    // А это срез начиная с элемента `s[2]` (включительно)
+    // и до конца среза.
     l = s[2:]
     fmt.Println("sl3:", l)
 
-    // We can declare and initialize a variable for slice
-    // in a single line as well.
+    // Мы можем объявить и инициализировать переменную
+    // для `среза` в одну строку.
     t := []string{"g", "h", "i"}
     fmt.Println("dcl:", t)
 
-    // Slices can be composed into multi-dimensional data
-    // structures. The length of the inner slices can
-    // vary, unlike with multi-dimensional arrays.
+    // Срезы могут быть составлены в многомерные структуры
+    // данных. В отличии от многомерных массивов,
+    // размер внутренних срезов может различаться.
     twoD := make([][]int, 3)
     for i := 0; i < 3; i++ {
         innerLen := i + 1
