@@ -47,8 +47,8 @@ $ cd $GOPATH/src/github.com/pavlik
 $ git clone git@github.com:pavlik/gobyexample.git
 $ cd gobyexample
 $ go get
-$ foreman start
-$ foreman open
+$ PORT=5000 CANONICAL_HOST=127.0.0.1 FORCE_HTTPS=0 gobyexample
+$ open http://127.0.0.1:5000/
 ```
 
 
