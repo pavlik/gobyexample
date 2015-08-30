@@ -56,7 +56,7 @@ Slices | Срезы
 #Reading Files
 #Writing Files
 Line Filters | Линейные фильтры
-#Command-Line Arguments
+Command-Line Arguments | Аргументы командной строки
 #Command-Line Flags
 #Environment Variables
 #Spawning Processes
