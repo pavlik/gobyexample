@@ -55,7 +55,7 @@ Slices | Срезы
 #Base64 Encoding
 #Reading Files
 #Writing Files
-#Line Filters
+Line Filters | Линейные фильтры
 #Command-Line Arguments
 #Command-Line Flags
 #Environment Variables
