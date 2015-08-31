@@ -1,19 +1,19 @@
-# Running the program shows that we pick up the value
-# for `FOO` that we set in the program, but that
-# `BAR` is empty.
+# Запустив эту программу, мы видим, что переменная
+# `FOO` установлена из программы, а переменная `BAR`
+# пуста.
 $ go run environment-variables.go
 FOO: 1
 BAR: 
 
-# The list of keys in the environment will depend on your
-# particular machine.
+# Список ключей переменных окружения будет зависеть от
+# вашей системы.
 TERM_PROGRAM
 PATH
 SHELL
 ...
 
-# If we set `BAR` in the environment first, the running
-# program picks that value up.
+# Если вы устанавливаете переменную `BAR` перед запуском,
+# программа подхватит этот значение.
 $ BAR=2 go run environment-variables.go
 FOO: 1
 BAR: 2

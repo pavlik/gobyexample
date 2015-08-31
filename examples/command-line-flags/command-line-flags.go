@@ -1,46 +1,45 @@
-// [_Command-line flags_](http://en.wikipedia.org/wiki/Command-line_interface#Command-line_option)
-// are a common way to specify options for command-line
-// programs. For example, in `wc -l` the `-l` is a
-// command-line flag.
+// [_Флаги командной строки_](http://en.wikipedia.org/wiki/Command-line_interface#Command-line_option)
+// это популярный способ указывать опции для консольных программ.
+// К примеру, в команде `wc -l` `-l` является флагом командной строки.
 
 package main
 
-// Go provides a `flag` package supporting basic
-// command-line flag parsing. We'll use this package to
-// implement our example command-line program.
+// В Go есть пакет `flag`, обеспечивающий базовые функции
+// для работы с флагами. Мы будем использовать этот пакет
+// для нашей демонстрационной консольной программы.
 import "flag"
 import "fmt"
 
 func main() {
 
-    // Basic flag declarations are available for string,
-    // integer, and boolean options. Here we declare a
-    // string flag `word` with a default value `"foo"`
-    // and a short description. This `flag.String` function
-    // returns a string pointer (not a string value);
-    // we'll see how to use this pointer below.
+    // Базовые определения флагов доступны для типов
+    // string, integer и boolean. Тут мы определяем
+    // флаг-строку `word` со значением по-умолчанию
+    // `"foo"` и коротким описанием. Функция `flag.String`
+    // возвращает указатель на строку (а не саму строку);
+    // мы посмотрим, как использовать этот указатель ниже.
     wordPtr := flag.String("word", "foo", "a string")
 
-    // This declares `numb` and `fork` flags, using a
-    // similar approach to the `word` flag.
+    // Тут мы декларируем флаги `numb` и `fork`, используя
+    // аналогичный подход, как и с флагом `word`.
     numbPtr := flag.Int("numb", 42, "an int")
     boolPtr := flag.Bool("fork", false, "a bool")
 
-    // It's also possible to declare an option that uses an
-    // existing var declared elsewhere in the program.
-    // Note that we need to pass in a pointer to the flag
-    // declaration function.
+    // Также флаги можно определять, используя
+    // существующую переменную, объявленную ранее в программе.
+    // Обратите внимание, что мы передаем в функцию указатель.
     var svar string
     flag.StringVar(&svar, "svar", "bar", "a string var")
 
-    // Once all flags are declared, call `flag.Parse()`
-    // to execute the command-line parsing.
+    // Как только все флаги определены, вызываем
+    // `flag.Parse()`, чтобы выполнить непосредственно
+    // разбор командной строки.
     flag.Parse()
 
-    // Here we'll just dump out the parsed options and
-    // any trailing positional arguments. Note that we
-    // need to dereference the pointers with e.g. `*wordPtr`
-    // to get the actual option values.
+    // Тут мы выводим на экран считанные значения флагов,
+    // и оставшиеся аргументы командной строки. Обратите
+    // внимание. что мы должны разыменовывать указатель,
+    // `*wordPtr`, например, чтобы получить реальные значения.
     fmt.Println("word:", *wordPtr)
     fmt.Println("numb:", *numbPtr)
     fmt.Println("fork:", *boolPtr)
