@@ -57,7 +57,7 @@ Slices | Срезы
 #Writing Files
 Line Filters | Линейные фильтры
 Command-Line Arguments | Аргументы командной строки
-#Command-Line Flags
+Command-Line Flags | Флаги командной строки
 #Environment Variables
 #Spawning Processes
 #Exec'ing Processes

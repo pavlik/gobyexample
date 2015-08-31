@@ -10,17 +10,17 @@ import "fmt"
 
 func main() {
 
-	// `os.Args` позволяет получить доступ к аргументам
-	// командной строки. Обратите внимание, что первое
-	// значение это путь к самой программе, а
-	// `os.Args[1:]` содержит только аргументы.
-	argsWithProg := os.Args
-	argsWithoutProg := os.Args[1:]
+    // `os.Args` позволяет получить доступ к аргументам
+    // командной строки. Обратите внимание, что первое
+    // значение это путь к самой программе, а
+    // `os.Args[1:]` содержит только аргументы.
+    argsWithProg := os.Args
+    argsWithoutProg := os.Args[1:]
 
-	// К отдельным аргументам можно обратиться по индексу.
-	arg := os.Args[3]
+    // К отдельным аргументам можно обратиться по индексу.
+    arg := os.Args[3]
 
-	fmt.Println(argsWithProg)
-	fmt.Println(argsWithoutProg)
-	fmt.Println(arg)
+    fmt.Println(argsWithProg)
+    fmt.Println(argsWithoutProg)
+    fmt.Println(arg)
 }
