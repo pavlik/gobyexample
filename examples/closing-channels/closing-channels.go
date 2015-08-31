@@ -16,14 +16,6 @@ func main() {
 	jobs := make(chan int, 5)
 	done := make(chan bool)
 
-	// Here's the worker goroutine. It repeatedly receives
-	// from `jobs` with `j, more := <-jobs`. In this
-	// special 2-value form of receive, the `more` value
-	// will be `false` if `jobs` has been `close`d and all
-	// values in the channel have already been received.
-	// We use this to notify on `done` when we've worked
-	// all our jobs.
-
 	// Это рабочая горутина. Она постоянно получает данные из
 	// `jobs` посредством `j, more := <-jobs`. В этой
 	// специальной форме получения данных с 2-мя значениями,
@@ -54,9 +46,6 @@ func main() {
 	close(jobs)
 	fmt.Println("sent all jobs")
 
-	// We await the worker using the
-	// [synchronization](channel-synchronization) approach
-	// we saw earlier.
 	// Ждем рабочую горутину используя подход
 	// [синхронизации](channel-synchronization),
 	// который был рассмотрен ранее.
