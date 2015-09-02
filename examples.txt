@@ -23,10 +23,10 @@ Slices | Срезы
 #Channels
 #Channel Buffering
 #Channel Synchronization
-#Channel Directions
-#Select
-#Timeouts
-#Non-Blocking Channel Operations
+Channel Directions | Направления каналов
+Select | Оператор выбора для каналов
+Timeouts | Тайм-ауты
+Non-Blocking Channel Operations | Неблокирующие операции с каналами
 #Closing Channels
 #Range over Channels
 #Timers

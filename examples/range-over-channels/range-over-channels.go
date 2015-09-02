@@ -1,7 +1,7 @@
-// In a [previous](range) example we saw how `for` and
-// `range` provide iteration over basic data structures.
-// We can also use this syntax to iterate over
-// values received from a channel.
+// В [предыдущем](range) примере мы видели, как `for` и
+// `range` обеспечивают перебор элеменов в базовых
+// структурах данных. Можно использовать этот же
+// синтаксис для перебора значений, полученных из канала.
 
 package main
 
@@ -9,18 +9,19 @@ import "fmt"
 
 func main() {
 
-    // We'll iterate over 2 values in the `queue` channel.
-    queue := make(chan string, 2)
-    queue <- "one"
-    queue <- "two"
-    close(queue)
+	// Будем перебирать 2 значения в канале `queue`.
+	queue := make(chan string, 2)
+	queue <- "one"
+	queue <- "two"
+	close(queue)
 
-    // This `range` iterates over each element as it's
-    // received from `queue`. Because we `close`d the
-    // channel above, the iteration terminates after
-    // receiving the 2 elements. If we didn't `close` it
-    // we'd block on a 3rd receive in the loop.
-    for elem := range queue {
-        fmt.Println(elem)
-    }
+	// Этот `range` проходит по каждому элементу, когда тот
+	// получен из `queue`. Поскольку мы закрыли канал выше,
+	// перебор завершается после получения 2 элементов.
+	// Если бы мы не закрыли канал, получили бы блокировку
+	// на 3 попытке приёма в цикле.
+
+	for elem := range queue {
+		fmt.Println(elem)
+	}
 }

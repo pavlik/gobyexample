@@ -1,7 +1,7 @@
-# Our running program shows the 9 jobs being executed by
-# various workers. The program only takes about 3 seconds
-# despite doing about 9 seconds of total work because
-# there are 3 workers operating concurrently.
+# Запущенная программа показывает, что выполняются 9
+# задач разными обработчиками. Эта программа тратит только
+# примерно 3 секунды несмотря на общую работу в 9 секунд.
+# Так как 3 обработчика работают одновременно.
 $ time go run worker-pools.go 
 worker 1 processing job 1
 worker 2 processing job 2
