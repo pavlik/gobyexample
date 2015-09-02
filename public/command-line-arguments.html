@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Аргументы командной строки</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="command-line-arguments">
+      <h2><a href="./">Go в примерах</a>: Аргументы командной строки</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><a href="http://en.wikipedia.org/wiki/Command-line_interface#Arguments"><em>Аргументы командной строки</em></a>
+это один из самых популярных способов параметризации программы.
+К примеру, <code>go run hello.go</code> использует <code>run</code> и
+<code>hello.go</code> как аргументы для запуска программы <code>go</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/D8Go8ECOul"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;os&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>os.Args</code> позволяет получить доступ к аргументам
+командной строки. Обратите внимание, что первое
+значение это путь к самой программе, а
+<code>os.Args[1:]</code> содержит только аргументы.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">argsWithProg</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span>
+    <span class="nx">argsWithoutProg</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>К отдельным аргументам можно обратиться по индексу.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">arg</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">argsWithProg</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">argsWithoutProg</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Чтобы поэкспериментировать с аргументами
+командной строки, лучше всего сначала собрать
+бинарный файл командой <code>go build</code>.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go build <span class="nb">command</span>-line-arguments.go
+<span class="gp">$</span> ./command-line-arguments a b c d
+<span class="go">[./command-line-arguments a b c d]       </span>
+<span class="go">[a b c d]</span>
+<span class="go">c</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Далее мы рассмотрим более продвинутую работу с командной
+строкой через флаги.</p>
+
+          </td>
+          <td class="code empty">
+	        
+            
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="command-line-flags.html">Флаги командной строки</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/command-line-arguments">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>

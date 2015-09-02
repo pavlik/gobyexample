@@ -1,11 +1,12 @@
-// A _line filter_ is a common type of program that reads
-// input on stdin, processes it, and then prints some
-// derived result to stdout. `grep` and `sed` are common
-// line filters.
+// _Линейный фильтр_ это распространенный вид программ,
+// читающих стандартный вход (stdin), обрабатывающих его и
+// выводящих результат в стандартный вывод (stdout).
+// К примеру, `grep` и `sed` это линейные фильтры.
 
-// Here's an example line filter in Go that writes a
-// capitalized version of all input text. You can use this
-// pattern to write your own Go line filters.
+// Данная программа является примером линейного фильтра,
+// который выводит весь входящий текст большими буквами.
+// Вы можете использовать этот паттерн для своих линейных
+// фильтров на Go.
 package main
 
 import (
@@ -17,23 +18,23 @@ import (
 
 func main() {
 
-    // Wrapping the unbuffered `os.Stdin` with a buffered
-    // scanner gives us a convenient `Scan` method that
-    // advances the scanner to the next token; which is
-    // the next line in the default scanner.
+    // Создав обёртку небуферизированного `os.Stdin` в виде
+    // буферизированного сканера, мы можем использовать удобный
+    // метод `Scan`, который продвигает сканер к следующему токену.
+    // В сканере по-умолчанию, это будет следующая строка.
     scanner := bufio.NewScanner(os.Stdin)
 
     for scanner.Scan() {
-        // `Text` returns the current token, here the next line,
-        // from the input.
+        // Метод `Text` возвращает текущий токен, тоесть следующую
+        // входящую строку.
         ucl := strings.ToUpper(scanner.Text())
 
-        // Write out the uppercased line.
+        // Напечатать результат в стандартный вывод (stdout)
         fmt.Println(ucl)
     }
 
-    // Check for errors during `Scan`. End of file is
-    // expected and not reported by `Scan` as an error.
+    // Проверяем ошибки, которые могли вернуться после работы `Scan`.
+    // Конец файла (EOF) и так ожидается, поэтому не считается ошибкой.
     if err := scanner.Err(); err != nil {
         fmt.Fprintln(os.Stderr, "error:", err)
         os.Exit(1)

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Тайм-ауты</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="timeouts">
+      <h2><a href="./">Go в примерах</a>: Тайм-ауты</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Тайм-ауты</em> важны для программ, которые подключаются ко
+внешним ресурсам или нуждаются в ограничении
+времени выполнения. Реализация тайм-аутов в Go проста и
+красива благодаря каналам и оператору <code>select</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/4YjGuSXMET"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;time&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>В нашем примере предположим, что мы выполняем внешний
+вызов, который возвращает свой результат в канал <code>c1</code>
+спустя 2 сек.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">c1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nx">c1</span> <span class="o">&lt;-</span> <span class="s">&quot;result 1&quot;</span>
+    <span class="p">}()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Здесь <code>select</code> выполняет вариант с тайм-аутом.
+<code>res := &lt;-c1</code> ожидает результата и <code>&lt;-Time.After</code>
+ожидает значение для отправки после тайм-аута
+в 1 сек. Поскольку <code>select</code> продолжается
+при первом успешном приёме, мы выберем вариант
+с тайм-аутом, если операция продолжится
+дольше дозволенной 1 сек.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="k">select</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">res</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">c1</span><span class="p">:</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+    <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;timeout 1&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Если мы указываем длинный тайм-аут в 3 сек., то
+приём из <code>c2</code> будет успешен и мы напечатаем <code>result 2</code>.</p>
+
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre>    <span class="nx">c2</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="nx">c2</span> <span class="o">&lt;-</span> <span class="s">&quot;result 2&quot;</span>
+    <span class="p">}()</span>
+    <span class="k">select</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">res</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">c2</span><span class="p">:</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+    <span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span> <span class="o">*</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;timeout 2&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Выполнение этой программы показывает, что первая
+операция завершилась по тайм-ауту, а вторая
+выполнилась успешно</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go run timeouts.go
+<span class="go">timeout 1</span>
+<span class="go">result 2</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Using this <code>select</code> timeout pattern requires
+communicating results over channels. This is a good
+idea in general because other important Go features are
+based on channels and <code>select</code>. We&rsquo;ll look at two
+examples of this next: timers and tickers.
+Использование этого шаблона <code>select</code> тайм-аута требует
+обмен результатами через каналы. В общем, это хорошая
+идея, так как другие важные особенности Go основаны
+на каналах и операторе <code>select</code>. Мы ещё увидим это
+на двух примерах: таймера и счетчика тиков.</p>
+
+          </td>
+          <td class="code empty">
+	        
+            
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="non-blocking-channel-operations.html">Неблокирующие операции с каналами</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/timeouts">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>
