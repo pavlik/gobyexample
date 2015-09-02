@@ -1,8 +1,8 @@
-// [Timers](timers) are for when you want to do
-// something once in the future - _tickers_ are for when
-// you want to do something repeatedly at regular
-// intervals. Here's an example of a ticker that ticks
-// periodically until we stop it.
+// [Таймеры](timers) применяются, когда нужно сделать что-то
+// один раз в будущем - _tickers_ тогда, когда нужно делать
+// что-то повторно с постоянным интервалом. Здесь пример счетчика
+// тиков, который периодически тикает до тех пор, пока мы его
+// не остановим.
 
 package main
 
@@ -11,21 +11,21 @@ import "fmt"
 
 func main() {
 
-    // Tickers use a similar mechanism to timers: a
-    // channel that is sent values. Here we'll use the
-    // `range` builtin on the channel to iterate over
-    // the values as they arrive every 500ms.
-    ticker := time.NewTicker(time.Millisecond * 500)
-    go func() {
-        for t := range ticker.C {
-            fmt.Println("Tick at", t)
-        }
-    }()
+	// Счетчик тиков использует механизм, похожий на
+	// таймер: канал, который отправляет значения. Здесь мы
+	// используем `range`, встроенный в канал для перебора
+	// значений, поступающих каждые 500 мсек.
+	ticker := time.NewTicker(time.Millisecond * 500)
+	go func() {
+		for t := range ticker.C {
+			fmt.Println("Tick at", t)
+		}
+	}()
 
-    // Tickers can be stopped like timers. Once a ticker
-    // is stopped it won't receive any more values on its
-    // channel. We'll stop ours after 1500ms.
-    time.Sleep(time.Millisecond * 1500)
-    ticker.Stop()
-    fmt.Println("Ticker stopped")
+	// Счетчики тиков могут быть остановлены подобно таймерам.
+	// Как только счетчик будет остановлен, больше не будет
+	// получать значения в канале. Остановим его после 1500 мсек.
+	time.Sleep(time.Millisecond * 1500)
+	ticker.Stop()
+	fmt.Println("Ticker stopped")
 }
