@@ -27,11 +27,11 @@ Channel Directions | Направления каналов
 Select | Оператор выбора для каналов
 Timeouts | Тайм-ауты
 Non-Blocking Channel Operations | Неблокирующие операции с каналами
-#Closing Channels
-#Range over Channels
-#Timers
-#Tickers
-#Worker Pools
+Closing Channels | Закрытие каналов
+Range over Channels | Перебор значений каналов
+Timers | Таймеры
+Tickers | Счётчики тиков
+Worker Pools | Набор обработчиков
 #Rate Limiting
 #Atomic Counters
 #Mutexes
