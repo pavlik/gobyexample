@@ -50,8 +50,8 @@
         
         <tr>
           <td class="docs">
-            <p>Основные отправка и приём из каналов являются
-блокирующими. Но мы можем использовать <code>select</code>
+            <p>Базовые операции отправки и приёма из каналов являются
+блокирующими. Но можно использовать <code>select</code>
 с оператором <code>default</code> для реализации <em>неблокирующих</em>
 отправки, приёма и даже неблокирующего
 многовариантного <code>select</code>.</p>
@@ -68,7 +68,7 @@
             
           </td>
           <td class="code leading">
-	        <a href="http://play.golang.org/p/zypTbJOBwt"><img title="Запустить код" src="play.png" class="run" /></a>
+	        <a href="http://play.golang.org/p/sagmgjE0ED"><img title="Запустить код" src="play.png" class="run" /></a>
             <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
 </pre></div>
 
@@ -94,7 +94,18 @@
           <td class="code leading">
 	        
             <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">messages</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">messages</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">)</span>
     <span class="nx">signals</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">bool</span><span class="p">)</span>
 </pre></div>
 
@@ -103,21 +114,12 @@
         
         <tr>
           <td class="docs">
-            <p>Здесь неблокирующий приём. Если значение доступно
+            <p>Здесь показан неблокирующий приём.
+Если значение доступно
 в <code>messages</code>, то <code>select</code> выберет вариант
-<code>&lt;-messages</code> с этим значением. Если нет
+<code>&lt;-messages</code> с этим значением. Если нет,
 то будет сразу выбран вариант <code>default</code>.</p>
 
-          </td>
-          <td class="code empty leading">
-	        
-            
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            
           </td>
           <td class="code leading">
 	        
@@ -153,21 +155,12 @@
         
         <tr>
           <td class="docs">
-            <p>Мы можем использовать несколько <code>case</code> перед
+            <p>Можно использовать несколько <code>case</code> перед
 оператором <code>default</code> для реализации многовариантного
-неблокирующего выбора. Здесь мы пытаемся неблокирующим
-способом получить как <code>messages</code> так и <code>signals</code>.</p>
+неблокирующего выбора. Здесь показана попытка
+неблокирующим способом получить
+как <code>messages</code> так и <code>signals</code>.</p>
 
-          </td>
-          <td class="code empty leading">
-	        
-            
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            
           </td>
           <td class="code">
 	        
@@ -208,7 +201,7 @@
       
       
       <p class="next">
-        Следующий пример: <a href="line-filters.html">Линейные фильтры</a>.
+        Следующий пример: <a href="closing-channels.html">Закрытие каналов</a>.
       </p>
       
       <p class="footer">

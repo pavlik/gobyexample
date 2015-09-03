@@ -67,7 +67,7 @@
             
           </td>
           <td class="code leading">
-	        <a href="http://play.golang.org/p/4YjGuSXMET"><img title="Запустить код" src="play.png" class="run" /></a>
+	        <a href="http://play.golang.org/p/QiY18WwlqJ"><img title="Запустить код" src="play.png" class="run" /></a>
             <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
 </pre></div>
 
@@ -101,8 +101,8 @@
         
         <tr>
           <td class="docs">
-            <p>В нашем примере предположим, что мы выполняем внешний
-вызов, который возвращает свой результат в канал <code>c1</code>
+            <p>В этом примере предположим, что мы выполняем внешний
+вызов, который возвращает результат в канал <code>c1</code>
 спустя 2 сек.</p>
 
           </td>
@@ -124,20 +124,10 @@
 <code>res := &lt;-c1</code> ожидает результата и <code>&lt;-Time.After</code>
 ожидает значение для отправки после тайм-аута
 в 1 сек. Поскольку <code>select</code> продолжается
-при первом успешном приёме, мы выберем вариант
+при первом успешном приёме, выберем вариант
 с тайм-аутом, если операция продолжится
 дольше дозволенной 1 сек.</p>
 
-          </td>
-          <td class="code empty leading">
-	        
-            
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            
           </td>
           <td class="code leading">
 	        
@@ -154,8 +144,8 @@
         
         <tr>
           <td class="docs">
-            <p>Если мы указываем длинный тайм-аут в 3 сек., то
-приём из <code>c2</code> будет успешен и мы напечатаем <code>result 2</code>.</p>
+            <p>Если указать длинный тайм-аут в 3 сек., то
+приём из <code>c2</code> будет успешен и напечатается <code>result 2</code>.</p>
 
           </td>
           <td class="code">
@@ -183,7 +173,7 @@
         
         <tr>
           <td class="docs">
-            <p>Выполнение этой программы показывает, что первая
+            <p>Выполнение программы показывает, что первая
 операция завершилась по тайм-ауту, а вторая
 выполнилась успешно</p>
 
@@ -200,16 +190,11 @@
         
         <tr>
           <td class="docs">
-            <p>Using this <code>select</code> timeout pattern requires
-communicating results over channels. This is a good
-idea in general because other important Go features are
-based on channels and <code>select</code>. We&rsquo;ll look at two
-examples of this next: timers and tickers.
-Использование этого шаблона <code>select</code> тайм-аута требует
-обмен результатами через каналы. В общем, это хорошая
+            <p>Использование шаблона <code>select</code> тайм-аута требует
+обмен результатами через каналы. В целом, это хорошая
 идея, так как другие важные особенности Go основаны
 на каналах и операторе <code>select</code>. Мы ещё увидим это
-на двух примерах: таймера и счетчика тиков.</p>
+на двух примерах: таймера и счётчика тиков.</p>
 
           </td>
           <td class="code empty">
