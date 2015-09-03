@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Ограничение скорости</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="rate-limiting">
+      <h2><a href="./">Go в примерах</a>: Ограничение скорости</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em><a href="http://en.wikipedia.org/wiki/Rate_limiting">Ограничение скорости
+(Rate limiting)</a></em>
+— важный способ для управления использованием ресурсов
+и обеспечения качества обслуживания. Go предлагает
+элегантный способ ограничения скорости с помощью горутин,
+каналов и <a href="tickers">счётчиков тиков</a>.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/fU_gFn3Ccd"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;time&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Сначала обратим внимание на базовое ограничение
+скорости. Предположим, что нужно ограничить скорость
+обработки входящих запросов.  Будем брать эти запросы
+из канала  <code>requests</code>.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">requests</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">requests</span> <span class="o">&lt;-</span> <span class="nx">i</span>
+    <span class="p">}</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">requests</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Канал <code>limiter</code> будет получать значение каждые
+200 миллисекунд. Это будет регулятор скорости
+в нашей схеме.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">limiter</span> <span class="o">:=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Tick</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>С помощью блокировки приёма значения из канала <code>limiter</code>
+перед обработкой каждого запроса, ограничимся 1 запросом
+в 200 миллисекунд.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="k">for</span> <span class="nx">req</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">requests</span> <span class="p">{</span>
+        <span class="o">&lt;-</span><span class="nx">limiter</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;request&quot;</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">())</span>
+    <span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Может потребоваться организовать небольшие пакеты
+запросов в схеме ограничения скорости с сохранением
+общего ограничения скорости. Это можно сделать с
+помощью буфера канала-ограничителя <code>burstyLimiter</code>.
+Такой канал позволяет использовать размер пакета
+велчиной до 3 событий.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">burstyLimiter</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Заполним канал для того, чтобы показать позволенный
+размер пакета</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">burstyLimiter</span> <span class="o">&lt;-</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
+    <span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Каждые 200 миллисекунд пробуем добавить новое
+значение в канал <code>burstyLimiter</code> до предела в 3
+значения.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="nx">t</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Tick</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span> <span class="o">*</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">burstyLimiter</span> <span class="o">&lt;-</span> <span class="nx">t</span>
+        <span class="p">}</span>
+    <span class="p">}()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Теперь имитируем 5 входящих запросов. Первые
+3 из них получат преимущество из-за возможности
+пакетной обработки <code>burstyLimiter</code>.</p>
+
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre>    <span class="nx">burstyRequests</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="nx">burstyRequests</span> <span class="o">&lt;-</span> <span class="nx">i</span>
+    <span class="p">}</span>
+    <span class="nb">close</span><span class="p">(</span><span class="nx">burstyRequests</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">req</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">burstyRequests</span> <span class="p">{</span>
+        <span class="o">&lt;-</span><span class="nx">burstyLimiter</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;request&quot;</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">())</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>При запуске программы первый набор запросов
+обработается с паузой ~200 мсек. каждый,
+что и требовалось.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go run rate-limiting.go
+<span class="go">request 1 2012-10-19 00:38:18.687438 +0000 UTC</span>
+<span class="go">request 2 2012-10-19 00:38:18.887471 +0000 UTC</span>
+<span class="go">request 3 2012-10-19 00:38:19.087238 +0000 UTC</span>
+<span class="go">request 4 2012-10-19 00:38:19.287338 +0000 UTC</span>
+<span class="go">request 5 2012-10-19 00:38:19.487331 +0000 UTC</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Из второго набора запросов мы обработаем первые 3
+немедленно, благодаря пакетному ограниченю скорости,
+а затем обработаем оставшиеся 2 с паузой в ~200 мсек.</p>
+
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="go">request 1 2012-10-19 00:38:20.487578 +0000 UTC</span>
+<span class="go">request 2 2012-10-19 00:38:20.487645 +0000 UTC</span>
+<span class="go">request 3 2012-10-19 00:38:20.487676 +0000 UTC</span>
+<span class="go">request 4 2012-10-19 00:38:20.687483 +0000 UTC</span>
+<span class="go">request 5 2012-10-19 00:38:20.887542 +0000 UTC</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="atomic-counters.html">Атомарные счётчики</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/rate-limiting">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>
