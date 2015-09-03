@@ -32,9 +32,9 @@ Range over Channels | Перебор значений каналов
 Timers | Таймеры
 Tickers | Счётчики тиков
 Worker Pools | Набор обработчиков
-#Rate Limiting
-#Atomic Counters
-#Mutexes
+Rate Limiting | Ограничение скорости
+Atomic Counters | Атомарные счётчики
+Mutexes | Мьютексы
 #Stateful Goroutines
 #Sorting
 #Sorting by Functions
