@@ -59,7 +59,7 @@ Line Filters | Линейные фильтры (Line Filters)
 Command-Line Arguments | Аргументы командной строки (Command-Line Arguments)
 Command-Line Flags | Флаги командной строки (Command-Line Flags)
 Environment Variables | Переменные окружения (Environment Variables)
-#Spawning Processes
-#Exec'ing Processes
-#Signals
-#Exit
+Spawning Processes | Порождение процессов (Spawning Processes)
+Exec'ing Processes | Выполнение процессов (Exec'ing Processes)
+Signals | Сигналы (Signals)
+Exit | Выход (Exit)

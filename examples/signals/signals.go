@@ -1,9 +1,10 @@
-// Sometimes we'd like our Go programs to intelligently
-// handle [Unix signals](http://en.wikipedia.org/wiki/Unix_signal).
-// For example, we might want a server to gracefully
-// shutdown when it receives a `SIGTERM`, or a command-line
-// tool to stop processing input if it receives a `SIGINT`.
-// Here's how to handle signals in Go with channels.
+// Иногда вам понадобится чтобы ваша Go программа умела
+// обрабатывать [Сигналы (UNIX)](https://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%B3%D0%BD%D0%B0%D0%BB%D1%8B_%28UNIX%29).
+// Например, вы возможно захотите сервер с поддержкой
+// обработки соединений (graceful) в момент когда программа
+// получает сигнал на завершение (`SIGTERM`), или завершения
+// чтения из командной строки при получении сигнала прерывания (SIGINT).
+// Далее пример как это можно обработать в Go при помощи каналов.
 
 package main
 
@@ -14,20 +15,20 @@ import "syscall"
 
 func main() {
 
-    // Go signal notification works by sending `os.Signal`
-    // values on a channel. We'll create a channel to
-    // receive these notifications (we'll also make one to
-    // notify us when the program can exit).
+    // Go сигналы работают отсылая значения `os.Signal` в каналы.
+    // Мы создадим канал для получения нотификаций
+    // (так же оповестим нас когда программа может завершиться)
     sigs := make(chan os.Signal, 1)
     done := make(chan bool, 1)
 
-    // `signal.Notify` registers the given channel to
-    // receive notifications of the specified signals.
+    // `signal.Notify` регистрирует каналы для получения нотификации
+    // указанных сигналов (в данном случае мы подписываемся
+    // на получения сигналов прерывания программы и выхода).
     signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
-    // This goroutine executes a blocking receive for
-    // signals. When it gets one it'll print it out
-    // and then notify the program that it can finish.
+    // Эта горутина будет заблокирована, пока мы не получим сигнал.
+    // При его получении, он будет выведен и мы оповестим программу
+    // о том, что она может прекратить свое выполнение.
     go func() {
         sig := <-sigs
         fmt.Println()
@@ -35,9 +36,9 @@ func main() {
         done <- true
     }()
 
-    // The program will wait here until it gets the
-    // expected signal (as indicated by the goroutine
-    // above sending a value on `done`) and then exit.
+    // Программа будет ждать пока не получит сигнал (и соответственно,
+    // пока горутина выше не пошлет значение в канал `done`),
+    // а после выйдет.
     fmt.Println("awaiting signal")
     <-done
     fmt.Println("exiting")

@@ -1,7 +1,7 @@
-# When we run this program it will block waiting for a
-# signal. By typing `ctrl-C` (which the
-# terminal shows as `^C`) we can send a `SIGINT` signal,
-# causing the program to print `interrupt` and then exit.
+# Когда мы запустим эту программу она будет ожидать
+# сигнал. При нажатии `ctrl-C`, мы посылаем `SIGINT`.
+# При его обработке  программа выведет `interrupt`
+# и завершится.
 $ go run signals.go
 awaiting signal
 ^C

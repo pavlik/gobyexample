@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Порождение процессов</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="spawning-processes">
+      <h2><a href="./">Go в примерах</a>: Порождение процессов</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Иногда, вашим Go программ необходимо вызвать другие,
+не Go, процессы. Например, подсветка синтаксиса на этом
+сайте <a href="https://github.com/pavlik/gobyexample/blob/master/tools/generate.go">реализовано</a>
+при помощи порождения <a href="http://pygments.org/"><code>pygmentize</code></a>
+процесса из Go программы. Давайте рассмотрим несколько
+примеров порождения процессов из Go.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/-_t5Iu4xBP"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;io/ioutil&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;os/exec&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Мы начнем с простой команды у которой нет входных
+аргументов или параметров и она только выводит что-то в
+стандартный поток вывода (stdout). Команда <code>exec.Command</code>
+является объектом, который предоставляет доступ к этому внешнему процессу.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">dateCmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>.Output</code> - команда которая ждет выполнения и
+завершения процесса, сохраняя его вывод.
+Если не произошло ошибки, <code>dateOut</code> будет заключать в себе
+байты с информацией о дате.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">dateOut</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">dateCmd</span><span class="p">.</span><span class="nx">Output</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;&gt; date&quot;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">dateOut</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>В этом примере мы заглянем чуточку глубже, в случай
+когда мы направляем данные во внешний процесс
+в его поток ввода (stdin) и считываем результаты
+из потока вывода этого процесса.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">grepCmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;grep&quot;</span><span class="p">,</span> <span class="s">&quot;hello&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Здесь мы непосредственно берем потоки (pipes) ввода/вывода,
+стартуем процесс, записываем в него некоторые входные
+данные, читаем результирующий выходные данные и
+ждем пока процесс завершится.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">grepIn</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">grepCmd</span><span class="p">.</span><span class="nx">StdinPipe</span><span class="p">()</span>
+    <span class="nx">grepOut</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">grepCmd</span><span class="p">.</span><span class="nx">StdoutPipe</span><span class="p">()</span>
+    <span class="nx">grepCmd</span><span class="p">.</span><span class="nx">Start</span><span class="p">()</span>
+    <span class="nx">grepIn</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;hello grep\ngoodbye grep&quot;</span><span class="p">))</span>
+    <span class="nx">grepIn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+    <span class="nx">grepBytes</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">grepOut</span><span class="p">)</span>
+    <span class="nx">grepCmd</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Мы опустили проверку на ошибки в примерах выше, но
+вы можете использовать для этого шаблон <code>if err != nil</code>.
+Так же мы сохраняем данные только из потока вывода (StdoutPipe),
+но вы можете сохранять из потока ошибок (<code>StderrPipe</code>)
+в точности также.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;&gt; grep hello&quot;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">grepBytes</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>При порождении команд нам необходимо предоставить
+четко определенную команду и массив ее аргументов,
+вместо того чтобы задать всё в одной строке. Если
+вы хотите породить команду в одной строке, то вы
+можете использовать <code>bash</code> <code>-c</code>:</p>
+
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre>    <span class="nx">lsCmd</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;bash&quot;</span><span class="p">,</span> <span class="s">&quot;-c&quot;</span><span class="p">,</span> <span class="s">&quot;ls -a -l -h&quot;</span><span class="p">)</span>
+    <span class="nx">lsOut</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">lsCmd</span><span class="p">.</span><span class="nx">Output</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;&gt; ls -a -l -h&quot;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">lsOut</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Порожденная команда возвращает в точности такой же
+результат, если бы мы запустили ее непосредственно
+в командной строке.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go run spawning-processes.go 
+<span class="gp">&gt;</span> date
+<span class="go">Wed Oct 10 09:53:11 PDT 2012</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="gp">&gt;</span> grep hello
+<span class="go">hello grep</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="gp">&gt;</span> ls -a -l -h
+<span class="go">drwxr-xr-x  4 mark 136B Oct 3 16:29 .</span>
+<span class="go">drwxr-xr-x 91 mark 3.0K Oct 3 12:50 ..</span>
+<span class="go">-rw-r--r--  1 mark 1.3K Oct 3 16:28 spawning-processes.go</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="execing-processes.html">Выполнение процессов</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/spawning-processes">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>
