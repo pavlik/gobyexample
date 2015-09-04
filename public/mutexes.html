@@ -68,7 +68,7 @@
             
           </td>
           <td class="code leading">
-	        <a href="http://play.golang.org/p/-bgOc2GVGQ"><img title="Запустить код" src="play.png" class="run" /></a>
+	        <a href="http://play.golang.org/p/I3OVnhZ0MT"><img title="Запустить код" src="play.png" class="run" /></a>
             <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
 </pre></div>
 
@@ -167,7 +167,7 @@
         <tr>
           <td class="docs">
             <p>Для каждой операции чтения выбираем
-ключ для доступа, закрываем <code>Lock()</code> этот
+ключ для доступа, закрываем (<code>Lock()</code>) этот
 <code>mutex</code> для получения эксклюзивного доступа
 к <code>state</code>, читаем значение для выбранного
 ключа, <code>Unlock()</code> мьютекс и увеличиваем
@@ -194,7 +194,7 @@
 Такое выполнение производится автоматически,
 например, каждой операцией канала или при
 блокирующих вызовах подобных <code>time.Sleep</code>,
-но в этом случае нужно выполнить его вручную.</p>
+но в нашем случае нужно выполнить его вручную.</p>
 
           </td>
           <td class="code leading">
@@ -285,8 +285,8 @@
         
         <tr>
           <td class="docs">
-            <p>Running the program shows that we executed about
-3,500,000 operations against our <code>mutex</code>-synchronized
+            <p>Программа покажет, что мы выполнили 3 500 000
+операций с помощью <code>mutex</code>-синхронизации
 <code>state</code>.</p>
 
           </td>
@@ -302,8 +302,9 @@
         
         <tr>
           <td class="docs">
-            <p>Next we&rsquo;ll look at implementing this same state
-management task using only goroutines and channels.</p>
+            <p>Далее посмотрим как реализовать эту же задачу по
+управлению состоянием используя только горутины и
+каналы.</p>
 
           </td>
           <td class="code empty">
