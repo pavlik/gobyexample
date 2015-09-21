@@ -1,12 +1,12 @@
 Hello World
-Values | Типы данных
-Variables | Переменные
-Constants | Константы
+Values | Типы данных (Values)
+Variables | Переменные (Variables)
+Constants | Константы (Constants)
 For
 If/Else
 Switch
-Arrays | Массивы
-Slices | Срезы
+Arrays | Массивы (Arrays)
+Slices | Срезы (Slices)
 #Maps
 #Range
 #Functions
@@ -23,18 +23,18 @@ Slices | Срезы
 #Channels
 #Channel Buffering
 #Channel Synchronization
-Channel Directions | Направления каналов
-Select | Оператор выбора для каналов
-Timeouts | Тайм-ауты
-Non-Blocking Channel Operations | Неблокирующие операции с каналами
-Closing Channels | Закрытие каналов
-Range over Channels | Перебор значений каналов
-Timers | Таймеры
-Tickers | Счётчики тиков
-Worker Pools | Набор обработчиков
-Rate Limiting | Ограничение скорости
-Atomic Counters | Атомарные счётчики
-Mutexes | Мьютексы
+Channel Directions | Направления каналов (Channel Directions)
+Select | Оператор выбора для каналов (Select)
+Timeouts | Тайм-ауты (Timeouts)
+Non-Blocking Channel Operations | Неблокирующие операции с каналами (Non-Blocking Channel Operations)
+Closing Channels | Закрытие каналов (Closing Channels)
+Range over Channels | Перебор значений каналов (Range over Channels)
+Timers | Таймеры (Timers)
+Tickers | Счётчики тиков (Tickers)
+Worker Pools | Набор обработчиков (Worker Pools)
+Rate Limiting | Ограничение скорости (Rate Limiting)
+Atomic Counters | Атомарные счётчики (Atomic Counters)
+Mutexes | Мьютексы (Mutexes)
 #Stateful Goroutines
 #Sorting
 #Sorting by Functions
@@ -55,11 +55,11 @@ Mutexes | Мьютексы
 #Base64 Encoding
 #Reading Files
 #Writing Files
-Line Filters | Линейные фильтры
-Command-Line Arguments | Аргументы командной строки
-Command-Line Flags | Флаги командной строки
-Environment Variables | Переменные окружения
-Spawning Processes | Порождение процессов
-Exec'ing Processes | Выполнение процессов
-Signals | Сигналы
-Exit | Выход
+Line Filters | Линейные фильтры (Line Filters)
+Command-Line Arguments | Аргументы командной строки (Command-Line Arguments)
+Command-Line Flags | Флаги командной строки (Command-Line Flags)
+Environment Variables | Переменные окружения (Environment Variables)
+Spawning Processes | Порождение процессов (Spawning Processes)
+Exec'ing Processes | Выполнение процессов (Exec'ing Processes)
+Signals | Сигналы (Signals)
+Exit | Выход (Exit)
