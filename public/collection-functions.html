@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Функции коллекции</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="collection-functions">
+      <h2><a href="./">Go в примерах</a>: Функции коллекции</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Нам часто необходимо выполнить операции над данными в коллекции,
+например выбрать все значения, удовлетворяющие какое-то условие
+или соотнести все значения в новую коллекцию с пользовательской
+функцией.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>В некоторых языках, для таких задач, идеоматически использовать <a href="http://en.wikipedia.org/wiki/Generic_programming">generic</a>
+структуры данных и алгоритмы. Go не поддерживает <code>generics</code>; в Go,
+как правило, предоставляют функции коллекции если они необходимы
+конкретно для вашей программы и ваших типов данных.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Вот несколько примеров функций коллекции для слайсов
+со строковыми значениями. Вы можете использовать эти примеры,
+чтобы сделать собственные функции. Обратите внимание,
+что в некоторых случаях, возможно, было бы более явным встроить код,
+манипулирующий коллекциями, вместо создания создания впомогательных
+функций.</p>
+
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/ZQzhdKTSUD"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;strings&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает первый индекс совпадения со строкой <code>t</code> или
+-1 если совпадение не найдено.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">Index</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">t</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">vs</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">v</span> <span class="o">==</span> <span class="nx">t</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">i</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает <code>true</code> если строка <code>t</code> находится в слайсе</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">Include</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">t</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">Index</span><span class="p">(</span><span class="nx">vs</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает <code>true</code> если одна из строк в слайсе
+удовлетворяет условие <code>f</code></p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">Any</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">vs</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">f</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает <code>true</code> если все из строк в слайсе
+удовлетворяют условие <code>f</code></p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">All</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">vs</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">!</span><span class="nx">f</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">false</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает новый слайс, содержащий все строки в
+слайсе, которые удовлетворяют условие <code>f</code></p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">Filter</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+    <span class="nx">vsf</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">vs</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="nx">f</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">vsf</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">vsf</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">vsf</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Возвращает новый слайс, содержащий результаты выполнения
+функции <code>f</code> с каждой строкой исходного слайса</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">Map</span><span class="p">(</span><span class="nx">vs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">f</span> <span class="kd">func</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span> <span class="kt">string</span><span class="p">)</span> <span class="p">[]</span><span class="kt">string</span> <span class="p">{</span>
+    <span class="nx">vsm</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">vs</span><span class="p">))</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">vs</span> <span class="p">{</span>
+        <span class="nx">vsm</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nx">f</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">vsm</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Здесь мы пробуем различные фукнции коллекций.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">strs</span> <span class="p">=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;peach&quot;</span><span class="p">,</span> <span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;plum&quot;</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">Index</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">Include</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="s">&quot;grape&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">Any</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="s">&quot;p&quot;</span><span class="p">)</span>
+    <span class="p">}))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">All</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="s">&quot;p&quot;</span><span class="p">)</span>
+    <span class="p">}))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">Filter</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">v</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="s">&quot;e&quot;</span><span class="p">)</span>
+    <span class="p">}))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Все примеры, приведенные выше, использовали анонимные функции,
+но вы можете использовать именные функции корректного типа.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">Map</span><span class="p">(</span><span class="nx">strs</span><span class="p">,</span> <span class="nx">strings</span><span class="p">.</span><span class="nx">ToUpper</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go run collection-functions.go
+<span class="go">2</span>
+<span class="go">false</span>
+<span class="go">true</span>
+<span class="go">false</span>
+<span class="go">[peach apple pear]</span>
+<span class="go">[PEACH APPLE PEAR PLUM]</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="string-functions.html">Функции для работы со строками</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/collection-functions">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>

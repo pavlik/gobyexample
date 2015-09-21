@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Go в примерах: Отложенный вызов</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-497656-15', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30402197 = new Ya.Metrika({id:30402197,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30402197" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+  <body>
+    <div class="example" id="defer">
+      <h2><a href="./">Go в примерах</a>: Отложенный вызов</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Defer</em> гарантирует отложенный вызов функциии, обычно
+отчистки,  по мере выполнения программы. <code>defer</code> часто
+используется подобно <code>ensure</code> и <code>finally</code> в других языках.</p>
+
+          </td>
+          <td class="code empty leading">
+	        
+            
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        <a href="http://play.golang.org/p/kT6Bw7KcCJ"><img title="Запустить код" src="play.png" class="run" /></a>
+            <div class="highlight"><pre><span class="kn">package</span> <span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span> <span class="s">&quot;os&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Предположим, мы хотели бы создать файл, записать в него
+данные и затем закрыть его, когда закончим. Вот, что мы
+могли бы сделать с <code>defer</code>.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>После получения объекта файла с помощью функции
+<code>createFile</code>, мы откладываем закрытие файла с
+помощью функции <code>closeFile</code>. Выполнение произойдет
+в конце блока текущей функции (<code>main</code>) после того,
+как <code>writeFile</code> выполнит свою работу.</p>
+
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre>    <span class="nx">f</span> <span class="o">:=</span> <span class="nx">createFile</span><span class="p">(</span><span class="s">&quot;/tmp/defer.txt&quot;</span><span class="p">)</span>
+    <span class="k">defer</span> <span class="nx">closeFile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+    <span class="nx">writeFile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">createFile</span><span class="p">(</span><span class="nx">p</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;creating&quot;</span><span class="p">)</span>
+    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">f</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">writeFile</span><span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;writing&quot;</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintln</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="s">&quot;data&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+	        
+            <div class="highlight"><pre><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="kd">func</span> <span class="nx">closeFile</span><span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;closing&quot;</span><span class="p">)</span>
+    <span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Запуск программы подтверждает что файл закрыт после
+записи.</p>
+
+          </td>
+          <td class="code">
+	        
+            <div class="highlight"><pre><span class="gp">$</span> go run defer.go
+<span class="go">creating</span>
+<span class="go">writing</span>
+<span class="go">closing</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Следующий пример: <a href="collection-functions.html">Функции коллекции</a>.
+      </p>
+      
+      <p class="footer">
+        придумал <a href="https://twitter.com/mmcgrana">@mmcgrana</a> | перевел <a href="http://twitter.com/village_geek">@village_geek</a> | <a href="https://github.com/pavlik/gobyexample/blob/master/examples/defer">исходники</a> | <a href="https://github.com/pavlik/gobyexample#license">лицензия</a>
+      </p>
+    </div>
+  </body>
+</html>
