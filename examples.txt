@@ -39,10 +39,10 @@ Mutexes | Мьютексы (Mutexes)
 #Sorting
 #Sorting by Functions
 #Panic
-#Defer
-#Collection Functions
-#String Functions
-#String Formatting
+Defer | Отложенный вызов
+Collection Functions | Функции коллекции
+String Functions | Функции для работы со строками
+String Formatting | Форматирование строк
 #Regular Expressions
 #JSON
 #Time

@@ -1,4 +1,4 @@
-$ go run collection-functions.go 
+$ go run collection-functions.go
 2
 false
 true
