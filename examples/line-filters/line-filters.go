@@ -25,7 +25,7 @@ func main() {
     scanner := bufio.NewScanner(os.Stdin)
 
     for scanner.Scan() {
-        // Метод `Text` возвращает текущий токен, тоесть следующую
+        // Метод `Text` возвращает текущий токен, то есть следующую
         // входящую строку.
         ucl := strings.ToUpper(scanner.Text())
 
